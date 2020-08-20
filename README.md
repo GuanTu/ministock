@@ -29,6 +29,7 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 
 ```
+参考博客：
 https://www.cnblogs.com/onetwo/p/11871120.html
 https://www.juhe.cn/docs/api/id/21
 
@@ -73,3 +74,9 @@ http://hq.sinajs.cn/list=sh601006
 | 31   | 时间       | 13:44:15,      |
 | 32   |            | 00             |
 
+
+## License
+
+Copyright (c) 2020-present GuanTU
+
+[MIT License](http://en.wikipedia.org/wiki/MIT_License)
