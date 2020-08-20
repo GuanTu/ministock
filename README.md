@@ -1,46 +1,51 @@
-# Quasar App (ministock)
+# Quasar App (MiniStock)
 
 A Quasar Framework app
 
-## Install the dependencies
+## 安装依赖
 
 ```bash
 yarn
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### 运行
+
 ```bash
-quasar dev
+quasar dev -m electron
 ```
 
-### Lint the files
+## 打包
+
 ```bash
-yarn run lint
+quasar build -m electron
 ```
 
-### Build the app for production
-```bash
-quasar build
+### 自定义
+
+参考 [Configuring quasar.conf.js](https://quasar.dev).
+
+
+
+## 股票接口
+
+### 参考博客
+
 ```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
-
-
-
-```
-参考博客：
 https://www.cnblogs.com/onetwo/p/11871120.html
 https://www.juhe.cn/docs/api/id/21
+```
 
-接口地址：
+
+
+### API
+
+```
 http://hq.sinajs.cn/list=sh601006
 ```
 
-
-
-| 0    | 股票名称   | 游族网络,      |
+| 序号 | 说明       | 值             |
 | ---- | ---------- | -------------- |
+| 0    | 股票名称   | 游族网络,      |
 | 1    | 今日开盘价 | 20.490,        |
 | 2    | 昨日收盘价 | 20.350,        |
 | 3    | 当前价格   | 20.760,        |
@@ -77,6 +82,6 @@ http://hq.sinajs.cn/list=sh601006
 
 ## License
 
-Copyright (c) 2020-present GuanTU
+Copyright (c) 2020-present GuanTu
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
