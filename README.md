@@ -1,6 +1,8 @@
-# Quasar App (MiniStock)
+# MiniStock，A Quasar Framework app
 
-A Quasar Framework app
+**免安装版，直接运行**
+
+
 
 ## 安装依赖
 
@@ -23,6 +25,18 @@ quasar build -m electron
 ### 自定义
 
 参考 [Configuring quasar.conf.js](https://quasar.dev).
+
+
+
+## 软件截图
+
+### 盯盘模式
+
+![](doc/1.jpg)
+
+### K线图
+
+![](doc/2.jpg)
 
 
 
