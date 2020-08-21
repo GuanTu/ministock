@@ -6,11 +6,13 @@
 
         <q-space />
         <!-- <div>MiniStock</div> -->
+
         <q-space />
 
         <q-btn dense flat :icon="!!isTop ? 'lock':'lock_open'" @click="topApp" :color="!!isTop ? 'red':''"/>
         <q-btn dense flat icon="minimize" @click="minimize" />
         <!-- <q-btn dense flat icon="crop_square" @click="maximize" /> -->
+        <q-btn dense flat icon="ion-logo-github" @click="openGitHub"/>
         <q-btn dense flat icon="close" @click="closeApp" />
       </q-bar>
     </q-header>
@@ -137,6 +139,9 @@ export default {
     onReset (size) {
       const height = window.innerHeight - offset
       this.panelsStyle.height = height + 'px'
+    },
+    openGitHub () {
+      this.$q.electron.shell.openExternal('https://github.com/GuanTu/ministock')
     },
     addStock () {
       this.$refs.areaCode.validate()
