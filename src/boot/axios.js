@@ -2,5 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 
 Vue.prototype.$axios = axios
-// axios.defaults.baseURL = '/api'
-axios.defaults.baseURL = 'http://hq.sinajs.cn'
+if (process.env.DEV) {
+  axios.defaults.baseURL = '/api'
+} else {
+  axios.defaults.baseURL = 'http://hq.sinajs.cn'
+}
