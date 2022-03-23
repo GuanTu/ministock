@@ -91,6 +91,13 @@ module.exports = configure(function (ctx) {
             "^/searchapi": "",
           },
         },
+        "/push2Eastmoney": {
+          target: "https://push2.eastmoney.com/api",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/push2Eastmoney": "",
+          },
+        },
       },
       // vueDevtools: true,
     },

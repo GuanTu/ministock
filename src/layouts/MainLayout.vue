@@ -42,44 +42,7 @@
 
     <q-page-container>
       <q-page>
-        <q-markup-table dense flat>
-          <thead>
-            <tr>
-              <th class="text-left">名称</th>
-              <th class="text-left">最新</th>
-              <th class="text-left">涨幅</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(info, index) in stockList" :key="info.stockCode">
-              <td class="text-left" :title="info.stockCode">
-                {{ info.name || "--" }}
-              </td>
-              <td class="text-left">{{ info.price || "--" }}</td>
-              <td class="text-left">
-                {{ info.increase ? info.increase + "%" : "--" }}
-              </td>
-              <q-menu touch-position context-menu>
-                <q-btn
-                  flat
-                  dense
-                  v-close-popup
-                  label="删除"
-                  color="red"
-                  @click="removeStock(index)"
-                />
-                <q-btn
-                  flat
-                  dense
-                  v-close-popup
-                  label="详情"
-                  color="primary"
-                  @click="showK(info)"
-                />
-              </q-menu>
-            </tr>
-          </tbody>
-        </q-markup-table>
+        <StockTable ref="stockTable"></StockTable>
 
         <q-dialog
           v-model="basic"
@@ -118,13 +81,13 @@
 </template>
 
 <script>
+import StockTable from "src/components/StockTable.vue";
 const { ipcRenderer } = window.electron;
 
 const offset = 62 + 32;
 
 export default {
   name: "MainLayout",
-
   data() {
     return {
       isAdd: false,
@@ -165,8 +128,9 @@ export default {
         .dialog({
           component: "AddStock",
         })
-        .onOk((payload) => {
-          console.log("OK, " + payload);
+        .onOk((stockInfo) => {
+          this.$refs.stockTable.add(stockInfo);
+          console.log("Add Stock Ok.", JSON.stringify(stockInfo));
         });
     },
     minimize() {
@@ -195,7 +159,6 @@ export default {
         .invoke("win-auto-devtool", !$this.isOpenDevTools)
         .then(() => ($this.isOpenDevTools = !$this.isOpenDevTools));
     },
-
     removeStock(index) {
       this.stockList.splice(index, 1);
       this.store();
@@ -225,7 +188,6 @@ export default {
               stock.name = tmp[0];
               stock.price = tmp[3];
               stock.increase = ((stock.price / tmp[2] - 1) * 100).toFixed(2);
-
               // $this.stockList[index] = stock
               $this.$set($this.stockList, index, stock);
             } catch (err) {
@@ -260,5 +222,6 @@ export default {
       this.isShowK = true;
     },
   },
+  components: { StockTable },
 };
 </script>

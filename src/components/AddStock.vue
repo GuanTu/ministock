@@ -1,7 +1,7 @@
 <template>
   <!-- notice dialogRef here -->
   <q-dialog ref="dialog" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin">
+    <q-card class="q-dialog-plugin" style="max-width: 330px">
       <q-card-section>
         <div class="q-pa-md">
           <div class="q-gutter-md row items-start">
@@ -17,9 +17,11 @@
               :options="stockList"
               @filter="filterFn"
               @filter-abort="abortFilterFn"
-              hint="输入股票名称或代码，最少输入2个字符触发搜索"
-              style="width: 250px; padding-bottom: 32px"
+              label="输入股票名称或代码"
+              style="width: 280px; padding-bottom: 32px"
               autocomplete="false"
+              options-dense
+              bottom-slots
             >
               <template v-slot:no-option>
                 <q-item>
@@ -28,17 +30,20 @@
                   </q-item-section>
                 </q-item>
               </template>
+
+              <template v-slot:after>
+                <q-btn round dense flat icon="done" @click="onOKClick" />
+              </template>
+              <template v-slot:hint>
+                <div style="width: 280px">
+                  1.最少输入2个字符触发搜索<br />
+                  2.若感觉有问题可以双击输入框再次执行搜索
+                </div>
+              </template>
             </q-select>
           </div>
         </div>
       </q-card-section>
-
-      <q-separator />
-
-      <!-- buttons example -->
-      <q-card-actions align="right">
-        <q-btn color="primary" label="确定" @click="onOKClick" />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -67,7 +72,6 @@ export default {
         SecurityType: "",
         Code: "",
       },
-      stockCode: null,
       stockList: [],
 
       // other methods that we used in our vue html template;
@@ -128,26 +132,33 @@ export default {
     },
 
     onOKClick() {
-      if (!this.stockInfo.SecurityType) {
-        this.hide();
+      if (!this.stockInfo || !this.stockInfo.SecurityType) {
+        this.$q.notify({
+          position: "center",
+          type: "warning",
+          message: "请选中你想要的股票再提交",
+          timeout: 2000,
+        });
         return;
       }
-      if ("1" === this.stockInfo.SecurityType) {
-        this.stockCode = "sh" + this.stockInfo.Code;
-      } else if ("2" === this.stockInfo.SecurityType) {
-        this.stockCode = "sz" + this.stockInfo.Code;
-      } else {
+
+      if (
+        "1" !== this.stockInfo.SecurityType &&
+        "2" !== this.stockInfo.SecurityType
+      ) {
         this.$q.notify({
+          position: "center",
           type: "warning",
           message: "目前只支持添加沪深A股",
+          timeout: 2000,
         });
-        this.stockInfo = null;
+        this.stockInfo = {};
         return;
       }
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
-      this.$emit("ok", this.stockCode);
+      this.$emit("ok", this.stockInfo);
       // or with payload: this.$emit('ok', { ... })
 
       // then hiding dialog
