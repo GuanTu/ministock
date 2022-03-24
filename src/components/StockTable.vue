@@ -5,17 +5,19 @@
         <th class="text-left">名称</th>
         <th class="text-left">最新</th>
         <th class="text-left">涨幅</th>
+        <th class="text-left">涨跌</th>
+        <th class="text-left">换手</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="!responseStockLsit.length > 0">
       <tr v-for="(info, index) in stockList" :key="info.stockCode">
         <td class="text-left" :title="info.stockCode">
-          {{ info.Name || "--" }}
+          {{ info.Name }}
         </td>
-        <td class="text-left">{{ info.price || "--" }}</td>
-        <td class="text-left">
-          {{ info.increase ? info.increase + "%" : "--" }}
-        </td>
+        <td class="text-left">--</td>
+        <td class="text-left">--</td>
+        <td class="text-left">--</td>
+        <td class="text-left">--</td>
         <q-menu touch-position context-menu>
           <q-btn
             flat
@@ -23,7 +25,53 @@
             v-close-popup
             label="删除"
             color="red"
-            @click="removeStock(index)"
+            @click="remove(index)"
+          />
+          <q-btn
+            flat
+            dense
+            v-close-popup
+            label="详情"
+            color="primary"
+            @click="showK(info)"
+          />
+        </q-menu>
+      </tr>
+    </tbody>
+    <tbody v-else>
+      <tr v-for="(info, index) in responseStockLsit" :key="info.f12">
+        <td class="text-left" :title="info.f14">
+          {{ info.f14 }}
+        </td>
+        <td class="text-left" :class="getColorClass(info.f3)">
+          {{ info.f31 }}
+        </td>
+
+        <td
+          class="text-left text-weight-bolder"
+          :class="getColorClass(info.f3)"
+        >
+          {{ info.f3 + "%" }}
+        </td>
+
+        <td
+          class="text-left text-weight-bolder"
+          :class="getColorClass(info.f3)"
+        >
+          {{ info.f4 }}
+        </td>
+        <td class="text-left">
+          {{ info.f8 + "%" }}
+        </td>
+
+        <q-menu touch-position context-menu>
+          <q-btn
+            flat
+            dense
+            v-close-popup
+            label="删除"
+            color="red"
+            @click="remove(index)"
           />
           <q-btn
             flat
@@ -47,6 +95,7 @@ export default {
     return {
       timer: null,
       stockList: [],
+      responseStockLsit: [],
     };
   },
   mounted() {
@@ -56,19 +105,20 @@ export default {
     }
     this.timer = setInterval(() => {
       this.refresh();
-    }, 15000);
+    }, 2000);
   },
   methods: {
     add(stockInfo) {
       this.stockList.push(stockInfo);
       this.restore();
     },
-    removeStock(index) {
+    remove(index) {
       this.stockList.splice(index, 1);
+      this.responseStockLsit.splice(index, 1);
       this.restore();
     },
     refresh() {
-      console.info("refresh");
+      // console.info("refresh");
       push2Eastmoney
         .get("/qt/ulist.np/get", {
           params: {
@@ -79,7 +129,14 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response);
+          if (
+            response.data &&
+            response.data.data &&
+            0 < response.data.data.total &&
+            response.data.data.diff
+          ) {
+            this.responseStockLsit = response.data.data.diff;
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -97,6 +154,22 @@ export default {
       // });
 
       this.$q.localStorage.set("Mini_Stock_List", this.stockList);
+    },
+    getColorClass(f3) {
+      return f3 > 0 ? "text-red" : f3 < 0 ? "text-positive" : "";
+    },
+  },
+  watch: {
+    responseStockLsit(newList, oldList) {
+      newList.forEach((e) => {
+        e["isRise"] = false;
+        e["isFall"] = false;
+        if (e.f3 > 0) {
+          e["isRise"] = true;
+        } else if (e.f3 < 0) {
+          e["isFall"] = true;
+        }
+      });
     },
   },
   computed: {

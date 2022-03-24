@@ -1,28 +1,42 @@
 <template>
   <!-- notice dialogRef here -->
   <q-dialog ref="dialog" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin" style="max-width: 330px">
+    <q-card class="q-dialog-plugin">
       <q-card-section>
         <div class="q-pa-md">
-          <div class="q-gutter-md row items-start">
-            <!--input-debounce="0"  -->
+          <div class="q-gutter-md row">
             <q-select
               outlined
               map-options
               hide-selected
               use-input
               fill-input
+              input-debounce="600"
               v-model="stockInfo"
               option-label="Name"
               :options="stockList"
               @filter="filterFn"
               @filter-abort="abortFilterFn"
               label="输入股票名称或代码"
-              style="width: 280px; padding-bottom: 32px"
               autocomplete="false"
               options-dense
               bottom-slots
+              class="fit"
             >
+              <template v-slot:option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section avatar>{{ scope.opt.Code }} </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{ scope.opt.Name }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{
+                      scope.opt.SecurityTypeName
+                    }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+
               <template v-slot:no-option>
                 <q-item>
                   <q-item-section class="text-grey">
@@ -37,7 +51,7 @@
               <template v-slot:hint>
                 <div style="width: 280px">
                   1.最少输入2个字符触发搜索<br />
-                  2.若感觉有问题可以双击输入框再次执行搜索
+                  2.若感觉有问题可以点击输入框触发搜索
                 </div>
               </template>
             </q-select>

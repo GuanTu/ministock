@@ -1,12 +1,13 @@
 {
   "name": "ministock",
-  "version": "0.0.1",
+  "version": "2.0.1",
   "description": "A Quasar Project",
   "productName": "MiniStock",
   "author": "",
   "private": true,
   "scripts": {
-    "dev": "quasar dev -m electron"
+    "dev": "quasar dev -m electron",
+    "dist": "quasar build -m electron"
   },
   "dependencies": {
     "@quasar/cli": "^1.3.0",
@@ -22,6 +23,7 @@
     "@quasar/app-webpack": "^3.0.0",
     "@vue/devtools": "^6.1.3",
     "electron": "^17.1.2",
+    "electron-builder": "^22.4.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^8.5.0",
