@@ -27,14 +27,14 @@
             color="red"
             @click="remove(index)"
           />
-          <q-btn
+          <!-- <q-btn
             flat
             dense
             v-close-popup
             label="详情"
             color="primary"
             @click="showK(info)"
-          />
+          /> -->
         </q-menu>
       </tr>
     </tbody>
@@ -73,14 +73,14 @@
             color="red"
             @click="remove(index)"
           />
-          <q-btn
+          <!-- <q-btn
             flat
             dense
             v-close-popup
             label="详情"
             color="primary"
             @click="showK(info)"
-          />
+          /> -->
         </q-menu>
       </tr>
     </tbody>

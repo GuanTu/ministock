@@ -1,5 +1,12 @@
 # MiniStock (ministock)
 
+## 开发环境变量
+
+```
+ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/
+```
+
 ## 搜索股票代码
 
 ```

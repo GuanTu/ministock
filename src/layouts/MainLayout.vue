@@ -88,6 +88,7 @@ const offset = 62 + 32;
 
 export default {
   name: "MainLayout",
+  components: { StockTable },
   data() {
     return {
       isAdd: false,
@@ -112,16 +113,7 @@ export default {
       isOpenDevTools: false,
     };
   },
-  mounted() {
-    const stockList = this.$q.localStorage.getItem("stockList");
-    if (stockList) {
-      this.stockList = stockList;
-    }
-    if (this.stockList) {
-      const $this = this;
-      $this.each($this);
-    }
-  },
+  mounted() {},
   methods: {
     addStock() {
       this.$q
@@ -159,21 +151,6 @@ export default {
         .invoke("win-auto-devtool", !$this.isOpenDevTools)
         .then(() => ($this.isOpenDevTools = !$this.isOpenDevTools));
     },
-    removeStock(index) {
-      this.stockList.splice(index, 1);
-      this.store();
-    },
-    each($this) {
-      if (!$this.timeOutId) {
-        $this.timeOutId = setInterval(() => {
-          if ($this.stockList) {
-            $this.stockList.forEach((i, index) => {
-              $this.doGetStockInfo($this, i, index);
-            });
-          }
-        }, 2000);
-      }
-    },
     doGetStockInfo($this, stock, index) {
       const url = "/list=" + stock.areaCode + stock.stockCode;
       $this.$axios
@@ -204,24 +181,6 @@ export default {
           });
         });
     },
-    store() {
-      const storeList = [];
-      this.stockList.forEach((e) => {
-        const obj = {
-          areaCode: e.areaCode,
-          stockCode: e.stockCode,
-        };
-        storeList.push(obj);
-      });
-      this.$q.localStorage.set("stockList", storeList);
-    },
-    showK(info) {
-      this.isShowK = false;
-      this.areaCode = info.areaCode;
-      this.stockCode = info.stockCode;
-      this.isShowK = true;
-    },
   },
-  components: { StockTable },
 };
 </script>
