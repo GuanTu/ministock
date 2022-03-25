@@ -29,13 +29,13 @@
         <q-btn
           dense
           flat
-          :icon="isTop ? 'lock' : 'lock_open'"
+          icon="push_pin"
           @click="topApp"
           :color="isTop ? 'red' : ''"
         />
         <q-btn dense flat icon="minimize" @click="minimize" />
         <!-- <q-btn dense flat icon="crop_square" @click="maximize" /> -->
-        <q-btn dense flat icon="home" @click="openGitHub" />
+        <q-btn dense flat icon="star" @click="openGitHub" />
         <q-btn dense flat icon="close" @click="closeApp" />
       </q-bar>
     </q-header>
@@ -116,6 +116,7 @@ export default {
   mounted() {},
   methods: {
     addStock() {
+      this.maximize();
       this.$q
         .dialog({
           component: "AddStock",
@@ -123,6 +124,10 @@ export default {
         .onOk((stockInfo) => {
           this.$refs.stockTable.add(stockInfo);
           console.log("Add Stock Ok.", JSON.stringify(stockInfo));
+          this.maximize();
+        })
+        .onCancel(() => {
+          this.maximize();
         });
     },
     minimize() {

@@ -94,16 +94,16 @@ ipcMain.handle("win-mini-mize", (event, data) => {
 ipcMain.handle("win-max-mize", (event, data) => {
   if (process.env.MODE === "electron") {
     if (mainWindow.isMaximized()) {
-      win.unmaximize();
+      mainWindow.unmaximize();
     } else {
-      win.maximize();
+      mainWindow.maximize();
     }
   }
 });
 
 // 打开F12
 ipcMain.handle("win-auto-devtool", (event, data) => {
-  if (process.env.DEV && data) {
+  if (data) {
     mainWindow.webContents.openDevTools();
   } else {
     mainWindow.webContents.closeDevTools();
