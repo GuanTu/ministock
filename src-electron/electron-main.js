@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme, ipcMain } from "electron";
+import { app, BrowserWindow, nativeTheme, ipcMain, shell } from "electron";
 import path from "path";
 import os from "os";
 import { debug } from "console";
@@ -9,7 +9,7 @@ const platform = process.platform || os.platform();
 try {
   if (platform === "win32" && nativeTheme.shouldUseDarkColors === true) {
     require("fs").unlinkSync(
-      path.join(app.getPath("userData"), "DevTools Extensions")
+      path.join(app.getPath("userData"), "DevTools Extensions"),
     );
   }
 } catch (_) {}
@@ -26,6 +26,7 @@ function createWindow() {
     height: 150,
     useContentSize: true,
     webPreferences: {
+      sandbox: false,
       contextIsolation: true,
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
@@ -117,4 +118,11 @@ ipcMain.handle("win-auto-devtool", (event, data) => {
   //   // if on DEV or Production with debug enabled
   //   mainWindow.webContents.openDevTools();
   // }
+});
+
+//
+ipcMain.handle("open-github", (event, data) => {
+  if (process.env.MODE === "electron") {
+    shell.openExternal("https://github.com/GuanTu/ministock");
+  }
 });

@@ -16,9 +16,8 @@
  *   })
  */
 
-import { contextBridge, ipcRenderer, shell } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electron", {
   ipcRenderer,
-  shell,
 });

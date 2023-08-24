@@ -148,7 +148,7 @@ export default {
       this.panelsStyle.height = height + "px";
     },
     openGitHub() {
-      window.electron.shell.openExternal("https://github.com/GuanTu/ministock");
+      ipcRenderer.invoke("open-github");
     },
     openDevTool() {
       const $this = this;
