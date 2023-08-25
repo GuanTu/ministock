@@ -94,10 +94,16 @@ ipcMain.handle("win-mini-mize", (event, data) => {
 // 最大化
 ipcMain.handle("win-max-mize", (event, data) => {
   if (process.env.MODE === "electron") {
+    if (!mainWindow.isMaximized()) {
+      mainWindow.maximize();
+    }
+  }
+});
+// 取消最大化
+ipcMain.handle("win-un-max-mize", (event, data) => {
+  if (process.env.MODE === "electron") {
     if (mainWindow.isMaximized()) {
       mainWindow.unmaximize();
-    } else {
-      mainWindow.maximize();
     }
   }
 });

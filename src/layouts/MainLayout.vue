@@ -124,10 +124,10 @@ export default {
         .onOk((stockInfo) => {
           this.$refs.stockTable.add(stockInfo);
           console.log("Add Stock Ok.", JSON.stringify(stockInfo));
-          this.maximize();
+          this.unmaximize();
         })
         .onCancel(() => {
-          this.maximize();
+          this.unmaximize();
         });
     },
     minimize() {
@@ -135,6 +135,9 @@ export default {
     },
     maximize() {
       ipcRenderer.invoke("win-max-mize");
+    },
+    unmaximize() {
+      ipcRenderer.invoke("win-un-max-mize");
     },
     closeApp() {
       ipcRenderer.invoke("win-close");
