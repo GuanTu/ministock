@@ -44,7 +44,7 @@
           {{ info.f14 }}
         </td>
         <td class="text-left" :class="getColorClass(info.f3)">
-          {{ info.f31 }}
+          {{ info.f2 }}
         </td>
 
         <td
@@ -103,7 +103,7 @@ export default {
     if (stockList) {
       this.stockList = stockList;
     }
-    this.timer = setInterval(() => {
+    this.timer = setInterval(async () => {
       this.refresh();
     }, 2000);
   },
@@ -119,6 +119,24 @@ export default {
     },
     refresh() {
       // console.info("refresh");
+
+      // let response = await push2Eastmoney.get("/qt/ulist.np/get", {
+      //   params: {
+      //     fltt: 2,
+      //     fields:
+      //       "f12,f13,f19,f14,f139,f148,f2,f4,f1,f125,f18,f3,f152,f5,f30,f31,f32,f6,f8,f7,f10,f22,f9,f112,f100,f88,f153",
+      //     secids: this.secids,
+      //   },
+      // });
+      // if (
+      //   response.data &&
+      //   response.data.data &&
+      //   0 < response.data.data.total &&
+      //   response.data.data.diff
+      // ) {
+      //   this.responseStockLsit = response.data.data.diff;
+      // }
+
       push2Eastmoney
         .get("/qt/ulist.np/get", {
           params: {
