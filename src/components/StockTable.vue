@@ -5,7 +5,7 @@
         <th class="text-left">名称</th>
         <th class="text-left">最新</th>
         <th class="text-left">涨幅</th>
-        <th class="text-left">涨跌</th>
+        <th class="text-left">成交额</th>
         <th class="text-left">换手</th>
       </tr>
     </thead>
@@ -58,7 +58,7 @@
           class="text-left text-weight-bolder"
           :class="getColorClass(info.f3)"
         >
-          {{ info.f4 }}
+          {{ convertAmount(info.f6) }}
         </td>
         <td class="text-left">
           {{ info.f8 + "%" }}
@@ -175,6 +175,16 @@ export default {
     },
     getColorClass(f3) {
       return f3 > 0 ? "text-red" : f3 < 0 ? "text-positive" : "";
+    },
+    convertAmount(amount) {
+      if (!amount) {
+        return 0;
+      }
+
+      return amount.toFixed(0).replace(/(\d{1,4})((\d{4})*)$/, (a, b, c) => {
+        const t = ["", "万", "亿", "万亿"][c.length / 4];
+        return t ? `${b}.${c.slice(0, 2)}${t}` : b;
+      });
     },
   },
   watch: {
