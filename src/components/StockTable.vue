@@ -54,10 +54,7 @@
           {{ info.f3 + "%" }}
         </td>
 
-        <td
-          class="text-left text-weight-bolder"
-          :class="getColorClass(info.f3)"
-        >
+        <td class="text-left">
           {{ convertAmount(info.f6) }}
         </td>
         <td class="text-left">
