@@ -5,7 +5,7 @@
         <th class="text-left">名称</th>
         <th class="text-left">最新</th>
         <th class="text-left">涨幅</th>
-        <th class="text-left">成交额</th>
+        <th class="text-left">涨速</th>
         <th class="text-left">换手</th>
       </tr>
     </thead>
@@ -54,9 +54,19 @@
           {{ info.f3 + "%" }}
         </td>
 
-        <td class="text-left">
+        <!-- 成交额 -->
+        <!-- <td class="text-left">
           {{ convertAmount(info.f6) }}
+        </td> -->
+
+        <!-- 涨速 -->
+        <td
+          class="text-left text-weight-bolder"
+          :class="getColorClass(info.f22)"
+        >
+          {{ info.f22 + "%" }}
         </td>
+
         <td class="text-left">
           {{ info.f8 + "%" }}
         </td>
